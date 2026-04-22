@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eduki sorkuntza AArekin</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Archivo:wght@400;500;700&display=swap');
+
+        :root {
+            --ink: #11223a;
+            --ink-soft: #2d4464;
+            --sun: #f7b329;
+            --mint: #1fb88b;
+            --sky: #5ec8ff;
+            --paper: #f6f8fb;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Archivo', sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(247, 179, 41, 0.22), transparent 35%),
+                radial-gradient(circle at 90% 20%, rgba(94, 200, 255, 0.22), transparent 30%),
+                radial-gradient(circle at 60% 100%, rgba(31, 184, 139, 0.2), transparent 35%),
+                linear-gradient(145deg, #eef3fa 0%, #f8fbff 45%, #f3f6fb 100%);
+            display: grid;
+            place-items: center;
+            padding: 1.25rem;
+        }
+
+        .page {
+            width: min(980px, 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92));
+            border: 1px solid rgba(17, 34, 58, 0.08);
+            border-radius: 28px;
+            box-shadow: 0 24px 80px rgba(17, 34, 58, 0.12);
+            overflow: hidden;
+            animation: reveal 0.8s ease both;
+        }
+
+        .hero {
+            position: relative;
+            padding: clamp(2rem, 4vw, 3.5rem);
+            display: grid;
+            gap: 1rem;
+            isolation: isolate;
+            background:
+                linear-gradient(120deg, rgba(17, 34, 58, 0.94), rgba(45, 68, 100, 0.9)),
+                linear-gradient(90deg, rgba(247, 179, 41, 0.22), rgba(31, 184, 139, 0.25));
+            color: var(--white);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -10% -45% auto;
+            width: 320px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(94, 200, 255, 0.45), transparent 68%);
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .tag {
+            display: inline-flex;
+            width: fit-content;
+            font-family: 'Sora', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+        }
+
+        h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: clamp(1.9rem, 5vw, 3.3rem);
+            line-height: 1.1;
+            font-weight: 800;
+            max-width: 18ch;
+            text-wrap: balance;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            max-width: 54ch;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .content {
+            padding: clamp(1.5rem, 3vw, 2.3rem);
+            background: linear-gradient(180deg, rgba(246, 248, 251, 0.7), rgba(255, 255, 255, 0.85));
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .item {
+            background: var(--white);
+            border: 1px solid rgba(17, 34, 58, 0.1);
+            border-radius: 18px;
+            padding: 1.2rem 1.1rem;
+            box-shadow: 0 12px 30px rgba(17, 34, 58, 0.08);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.8rem;
+            align-items: start;
+            transform: translateY(10px);
+            opacity: 0;
+            animation: rise 0.6s ease forwards;
+        }
+
+        .item-body {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .item:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            background: linear-gradient(135deg, rgba(247, 179, 41, 0.85), rgba(94, 200, 255, 0.85));
+        }
+
+        .item h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.08rem;
+            line-height: 1.25;
+        }
+
+        .item h2 a {
+            color: var(--ink);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .item h2 a:hover,
+        .item h2 a:focus-visible {
+            color: #0e4d91;
+            border-bottom-color: rgba(14, 77, 145, 0.35);
+            outline: none;
+        }
+
+        .subsection {
+            margin-top: 0.15rem;
+            padding: 0.8rem;
+            border-radius: 12px;
+            background: var(--paper);
+            border: 1px solid rgba(17, 34, 58, 0.1);
+        }
+
+        .subsection-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-soft);
+            margin-bottom: 0.55rem;
+        }
+
+        .subsection-list {
+            list-style: none;
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .subsection-list a {
+            display: block;
+            text-decoration: none;
+            color: #15365f;
+            font-size: 0.95rem;
+            line-height: 1.35;
+            padding: 0.5rem 0.65rem;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: #ffffff;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .subsection-list a:hover,
+        .subsection-list a:focus-visible {
+            background: #f0f7ff;
+            border-color: rgba(21, 54, 95, 0.22);
+            transform: translateX(3px);
+            outline: none;
+        }
+
+        .foot {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--ink-soft);
+            text-align: center;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rise {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 2.2rem;
+            }
+
+            .subsection {
+                padding: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <p class="tag">Hezkuntza testuingurua</p>
+            <h1>Eduki sorkuntza AArekin</h1>
+            <p class="subtitle">Ikasgelan ideiak azkar prototipatzeko, material erakargarriak sortzeko eta ikasleen beharretara hobeto egokitzeko espazioa.</p>
+        </section>
+
+        <section class="content" aria-label="Edukiaren ezaugarriak">
+            <div class="grid">
+                <article class="item">
+                    <div class="icon">01</div>
+                    <div class="item-body">
+                        <h2><a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/file/d/1xQxJk1FSKyZlNZ0eoVFEkWnDQakiyR_n/view?usp=drive_link">Edukia sortzen</a></h2>
+                    </div>
+                </article>
+
+                <article class="item">
+                    <div class="icon">02</div>
+                    <div class="item-body">
+                        <h2><a target="_blank" rel="noopener noreferrer" href="https://drive.google.com/file/d/1mWy6dHE7oolYwkCeKYmiVJ2_6LVBFkGE/view?usp=sharing">Edukia pertsonalizatzen</a></h2>
+                        <div class="subsection" aria-label="Aukeratutako jarduerak">
+                            <p class="subsection-title">Azpiatal praktikoa</p>
+                            <ol class="subsection-list">
+                                <li><a href="futbol_jarduera.html">Baliozkotzeak futbola gustatzen zaien ikasleentzat egokitua.</a></li>
+                                <li><a href="bideo_jolasak_jarduera.html">Baliozkotzeak bideo-jolasak gustatzen zaien ikasleentzat egokitua.</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <p class="foot">AArekin, irakaskuntza dinamikoagoa eta ikaskuntza esanguratsuagoa.</p>
+        </section>
+    </main>
+</body>
+</html>
