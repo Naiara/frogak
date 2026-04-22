@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athletic Champions - Bazkide Berriak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Inter:wght@400;600&display=swap');
+        
+        :root {
+            --primary-red: #e30613;
+            --dark-blue: #002d72;
+        }
+
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        
+        .hero-gradient {
+            background: linear-gradient(rgba(0, 45, 114, 0.8), rgba(227, 6, 19, 0.6)), 
+                        url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=1600') center/cover;
+        }
+
+        .valid-input:valid { border-color: #10b981; border-width: 2px; }
+        .valid-input:invalid:not(:placeholder-shown) { border-color: #ef4444; border-width: 2px; }
+        
+        .card-shadow { box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Barra de Navegación Real -->
+    <nav class="bg-white border-b-4 border-red-600 sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-3xl">🛡️</span>
+                <span class="text-2xl font-bold tracking-tighter text-blue-900 italic">ATHLETIC <span class="text-red-600">CHAMPIONS</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8 font-bold text-sm uppercase">
+                <a href="#" class="hover:text-red-600">Taldea</a>
+                <a href="#" class="hover:text-red-600">Emaitzak</a>
+                <a href="#" class="hover:text-red-600">Denda</a>
+                <a href="#" class="text-red-600 border-b-2 border-red-600">Bazkideak</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-gradient h-[400px] flex items-center justify-center text-center text-white px-4">
+        <div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-4 drop-shadow-lg italic">AMETSA BIZI EZAZU</h1>
+            <p class="text-xl md:text-2xl font-light max-w-2xl mx-auto opacity-90 italic">Eman izena gure Champions League-ko abenturan eta izan zaitez gure 12. jokalaria.</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 -mt-20">
+        <div class="grid lg:grid-cols-3 gap-8">
+            
+            <!-- Columna lateral: Instrucciones (Enuntziatua oculto visualmente como "Guía") -->
+            <div class="lg:col-span-1 space-y-6">
+                <section class="bg-white p-6 rounded-lg card-shadow border-t-4 border-blue-900">
+                    <h3 class="text-xl font-bold mb-4 text-blue-900">Informazio Garrantzitsua</h3>
+                    <div class="text-sm space-y-4 text-gray-600">
+                        <p>Zelaian sartzeko, datu guztiak behar bezala bete behar dituzu. Segurtasunagatik, gure sistemak baliozkotze zorrotzak aplikatzen ditu.</p>
+                        <div class="bg-blue-50 p-4 rounded border border-blue-100 italic">
+                            <strong>⚠️ Ohar Teknikoa:</strong> Inprimaki honek HTML5 baliozkotze natiboa erabiltzen du. Ziurtatu atributu guztiak (required, min, pattern...) ondo ezarrita daudela bidali aurretik.
+                        </div>
+                    </div>
+                </section>
+
+                <div class="rounded-lg overflow-hidden card-shadow">
+                    <img src="euskal_taldeak.png" alt="Euskal taldeak">
+                    <div class="bg-red-600 p-4 text-white text-center font-bold italic">
+                        #GUREHIRIAGURETALDEA
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario Principal -->
+            <div class="lg:col-span-2">
+                <section class="bg-white p-8 md:p-12 rounded-lg card-shadow">
+                    <h2 class="text-3xl font-bold mb-8 border-b-2 border-gray-100 pb-4">
+                        <span class="text-red-600">01.</span> BAZKIDETZA FORMULARIOA
+                    </h2>
+
+                    <form id="futbolForm" class="space-y-8">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Izena -->
+                            <div class="col-span-2 md:col-span-1">
+                                <label class="block text-xs font-black uppercase text-gray-500 mb-2">Izen-abizen Osoa</label>
+                                <input type="text" placeholder="Adib: Jon Otxoa" 
+                                    class="w-full p-4 bg-gray-50 border-2 border-gray-200 rounded focus:outline-none focus:border-blue-900 valid-input transition-all">
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-span-2 md:col-span-1">
+                                <label class="block text-xs font-black uppercase text-gray-500 mb-2">Posta Elektronikoa</label>
+                                <input type="text" placeholder="bazkidea@email.eus" 
+                                    class="w-full p-4 bg-gray-50 border-2 border-gray-200 rounded focus:outline-none focus:border-blue-900 valid-input transition-all">
+                            </div>
+
+                            <!-- Adina -->
+                            <div>
+                                <label class="block text-xs font-black uppercase text-gray-500 mb-2">Adina (18+)</label>
+                                <input type="number" placeholder="18" 
+                                    class="w-full p-4 bg-gray-50 border-2 border-gray-200 rounded focus:outline-none focus:border-blue-900 valid-input transition-all">
+                            </div>
+
+                            <!-- Telefonoa -->
+                            <div>
+                                <label class="block text-xs font-black uppercase text-gray-500 mb-2">Telefonoa (+34...)</label>
+                                <input type="tel" placeholder="600000000" 
+                                    class="w-full p-4 bg-gray-50 border-2 border-gray-200 rounded focus:outline-none focus:border-blue-900 valid-input transition-all">
+                            </div>
+
+                            <!-- Posta Kodea -->
+                            <div>
+                                <label class="block text-xs font-black uppercase text-gray-500 mb-2">Posta Kodea (5 digitu)</label>
+                                <input type="text" placeholder="20001" 
+                                    class="w-full p-4 bg-gray-50 border-2 border-gray-200 rounded focus:outline-none focus:border-blue-900 valid-input transition-all">
+                            </div>
+
+                            <!-- Pasahitza -->
+                            <div>
+                                <label class="block text-xs font-black uppercase text-gray-500 mb-2">Sarbide Kodea (8+ karaktere)</label>
+                                <input type="password" 
+                                    class="w-full p-4 bg-gray-50 border-2 border-gray-200 rounded focus:outline-none focus:border-blue-900 valid-input transition-all">
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <button type="submit" 
+                                class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-5 px-8 rounded shadow-lg transform hover:-translate-y-1 transition-all uppercase tracking-widest text-lg italic">
+                                ESKAERA BIDALI ETA ZELAIRA JOAN
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="feedback" class="mt-8 p-6 hidden rounded border-2 text-center font-bold italic"></div>
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Estilo Real -->
+    <footer class="bg-blue-900 text-white py-12 mt-20 px-6">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-12 border-b border-blue-800 pb-12">
+            <div>
+                <h4 class="font-bold text-xl mb-4 italic italic">ATHLETIC CHAMPIONS</h4>
+                <p class="text-blue-300 text-sm">Harro gaude gure historiaz eta gure zaletuez. Bat egin gurekin Europako elitean.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-xl mb-4 italic italic">Loturak</h4>
+                <ul class="text-blue-300 text-sm space-y-2">
+                    <li><a href="#" class="hover:text-white">Pribatutasun politika</a></li>
+                    <li><a href="#" class="hover:text-white">Lege oharra</a></li>
+                    <li><a href="#" class="hover:text-white">Cookie-ak</a></li>
+                </ul>
+            </div>
+            <div class="flex justify-center md:justify-end items-center">
+                <div class="text-4xl space-x-4 grayscale opacity-50">
+                    <span>🏆</span><span>⚽</span><span>🏟️</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-blue-400 text-xs uppercase tracking-widest">
+            &copy; 2024 Athletic Champions Club. Eskubide guztiak erreserbatuta.
+        </div>
+    </footer>
+
+    <script>
+        const form = document.getElementById('futbolForm');
+        const feedback = document.getElementById('feedback');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            feedback.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-200', 'bg-green-50', 'text-green-700', 'border-green-200');
+            
+            feedback.textContent = "✅ ESKAERA ONARTUA: Datuak zuzenak dira. Laster jasoko duzu zure bazkide txartela posta bidez.";
+            feedback.classList.add('bg-green-50', 'text-green-700', 'border-green-200');
+        });
+    </script>
+</body>
+</html>
