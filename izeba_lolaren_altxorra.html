@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Izeba Lolaren Altxorra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #2a1b14;
+            --paper-color: #f4ecd8;
+            --text-dark: #3e2723;
+            --accent-gold: #c29b4e;
+            --accent-gold-hover: #e0b45c;
+            --leather: #4e342e;
+        }
+
+        body {
+            /* Vintage wallpaper pattern */
+            background-color: var(--bg-dark);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233e2723' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: var(--paper-color);
+            font-family: 'Playfair Display', serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            user-select: none; /* Prevent text selection for better mobile feel */
+            transition: background-color 1s ease-in-out; /* Transición suave de colores */
+        }
+
+        /* Typewriter font for codes and clues */
+        .typewriter {
+            font-family: 'Special Elite', monospace;
+        }
+
+        /* The main game container styled as an old journal or letter */
+        .game-container {
+            background-color: var(--paper-color);
+            color: var(--text-dark);
+            width: 90%;
+            max-width: 450px;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.8),
+                0 10px 10px -5px rgba(0, 0, 0, 0.5),
+                inset 0 0 40px rgba(139, 69, 19, 0.15); /* Vintage vignette */
+            position: relative;
+            background-image: 
+                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            /* Creased paper effect */
+            border: 1px solid #d7ccc8;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Decorative corners */
+        .game-container::before, .game-container::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--accent-gold);
+            opacity: 0.7;
+        }
+        
+        .game-container::before {
+            top: 10px;
+            left: 10px;
+            border-bottom: none;
+            border-right: none;
+        }
+        
+        .game-container::after {
+            bottom: 10px;
+            right: 10px;
+            border-top: none;
+            border-left: none;
+        }
+
+        /* Number input styling resembling old mechanical slots */
+        .digit-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 2rem 0;
+        }
+
+        .digit-box {
+            width: 3.5rem;
+            height: 4.5rem;
+            background-color: #212121;
+            border: 3px solid var(--accent-gold);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 2rem;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.8), 0 4px 6px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Gradient to make it look like a cylinder */
+        .digit-box::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.5) 100%);
+            pointer-events: none;
+        }
+
+        .digit-btn {
+            background: none;
+            border: none;
+            color: var(--accent-gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            width: 100%;
+            height: 30%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        
+        .digit-btn:hover, .digit-btn:active {
+            color: #fff;
+        }
+
+        .digit-value {
+            height: 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Special Elite', monospace;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Vintage button */
+        .btn-check {
+            background: linear-gradient(to bottom, var(--accent-gold), #997839);
+            color: #fff;
+            border: 2px solid #5c451b;
+            padding: 0.75rem 2rem;
+            font-size: 1.25rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.3);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+            transition: all 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+        }
+
+        .btn-check:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .error-shake {
+            animation: shake 0.5s;
+            border-color: #d32f2f !important;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(1.05); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .fade-out { animation: fadeOut 0.5s forwards; }
+        .fade-in { animation: fadeIn 0.5s forwards; }
+
+        /* Modal for feedback */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: var(--paper-color);
+            color: var(--text-dark);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 3px solid var(--accent-gold);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 80%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .level-indicator {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #795548;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #d7ccc8;
+            padding-bottom: 0.5rem;
+        }
+
+        .wax-seal {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #b71c1c, #7f0000);
+            border-radius: 50%;
+            box-shadow: 
+                inset 0 0 10px rgba(0,0,0,0.5),
+                2px 4px 6px rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffcdd2;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+            border: 2px solid #5c0000;
+            z-index: 10;
+        }
+
+        .wax-seal::before {
+            content: '';
+            position: absolute;
+            width: 85%;
+            height: 85%;
+            border: 1px dashed rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        .hidden-start { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="start-screen" class="game-container text-center">
+        <h1 class="text-4xl font-bold mb-4" style="color: #4e342e;">Izeba Lolaren Altxorra</h1>
+        <p class="mb-6 italic text-lg text-gray-700">Etxe zahar honek sekretu handiak gordetzen ditu. Prest al zaude bilaketa hasteko?</p>
+        <button onclick="startGame()" class="btn-check mt-4">Hasi Jolasera</button>
+    </div>
+
+    <div id="game-screen" class="game-container hidden-start">
+        <div class="level-indicator">
+            Nivela <span id="current-level-display">1</span>
+        </div>
+        
+        <h2 class="text-2xl font-bold text-center mb-2">Sartu Kodea</h2>
+        <!-- La pista se actualizará aquí -->
+        <p class="text-center italic mb-6 text-sm opacity-90 font-bold" style="color: #6d4c41;" id="clue-text"></p>
+
+        <!-- Combination Lock UI -->
+        <div class="digit-container" id="lock-container">
+            <!-- Digit 1 -->
+            <div class="digit-box">
+                <button class="digit-btn" onclick="changeDigit(0, 1)">&#9650;</button>
+                <div class="digit-value" id="digit-0">0</div>
+                <button class="digit-btn" onclick="changeDigit(0, -1)">&#9660;</button>
+            </div>
+            <!-- Digit 2 -->
+            <div class="digit-box">
+                <button class="digit-btn" onclick="changeDigit(1, 1)">&#9650;</button>
+                <div class="digit-value" id="digit-1">0</div>
+                <button class="digit-btn" onclick="changeDigit(1, -1)">&#9660;</button>
+            </div>
+            <!-- Digit 3 -->
+            <div class="digit-box">
+                <button class="digit-btn" onclick="changeDigit(2, 1)">&#9650;</button>
+                <div class="digit-value" id="digit-2">0</div>
+                <button class="digit-btn" onclick="changeDigit(2, -1)">&#9660;</button>
+            </div>
+            <!-- Digit 4 -->
+            <div class="digit-box">
+                <button class="digit-btn" onclick="changeDigit(3, 1)">&#9650;</button>
+                <div class="digit-value" id="digit-3">0</div>
+                <button class="digit-btn" onclick="changeDigit(3, -1)">&#9660;</button>
+            </div>
+        </div>
+
+        <button onclick="checkCode()" class="btn-check">Ireki</button>
+        
+        <div class="wax-seal">L</div>
+    </div>
+
+    <!-- Pista Bitarteko Pantaila (Intermediate Screen) -->
+    <div id="intermediate-screen" class="game-container hidden-start text-center">
+        <h2 class="text-3xl font-bold mb-6" style="color: #4e342e;">Hurrengo Helmugara!</h2>
+        <div class="text-6xl mb-6 drop-shadow-md">🧭</div>
+        <p id="intermediate-clue-text" class="text-xl mb-8 italic text-gray-800 typewriter font-bold"></p>
+        <button onclick="goToNextLevel()" class="btn-check mt-4">Aurkitu dugu!</button>
+    </div>
+
+    <!-- Final Victory Screen -->
+    <div id="victory-screen" class="game-container hidden-start text-center">
+        <h1 class="text-4xl font-bold mb-6 text-yellow-700">Zorionak!</h1>
+        <p class="text-xl mb-8 typewriter">Bilatu hemen zuen merezitako altxorra!</p>
+        <div class="text-6xl mb-6">🏆</div>
+        <button onclick="location.reload()" class="btn-check mt-4 text-sm px-4 py-2">Berriro Jolastu</button>
+    </div>
+
+    <div id="feedback-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="feedback-title" class="text-3xl font-bold mb-4" style="color: #4e342e;">Bikain!</h2>
+            <p id="feedback-message" class="text-lg mb-6">Hurrengo pistara pasatzeko prest.</p>
+            <button onclick="closeModalAndNext()" class="btn-check text-sm px-6 py-2">Jarraitu</button>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // 🛠️ ZONA DE EDICIÓN: CAMBIA AQUÍ LOS NÚMEROS, LAS PISTAS Y LOS COLORES
+        // =========================================================================
+        const gameLevels = [
+            { 
+                code: [6, 7, 6, 7], //Sarrera: 6767 - buzoiko giltza lortzeko
+                clue: "Jarri eskuak luze, palmak gora begira, doblatu pixkat besoak. Goitu bat pixkat (5 zentimetro) eta beitu bestea, orain goitu duzuna beitu eta bestea goitu. (bis) ",
+                locationClue: "Oso ondo! Giltza bat irabazi duzue. Nere laguntzaileak emango dizue.",
+                color: "#2a1b14" // Marrón oscuro (Fondo inicial)
+            },
+            { 
+                code: [2, 6, 3, 7], //giltzk dituzte eta froga gainditu dute. 2637. Orain beste gelara joateko goiko Junen gelara
+                clue: "Lagunaren LEHEN JAURNARTZE-ra joateko gogoa zuen, soineko ARGI luze bat jarriko zuen PIÑABURUZ txiki politak zituena, eta elizako ATETIK sartuko zen.",
+                locationClue: "Oso ongi egin duzue. Zuek badakizue nor naizen? Izeba Lola naiz eta zuen esku jarri nahi dut nere altxorrik preziatuena. Nere argazki bat dago etxe honetan, nere egunik zoriontxuenetako batekoa!",
+                color: "#1a3322" // Verde botella antiguo
+            },
+            { 
+                code: [5, 8, 1, 6], // 5816 - Salara joateko 
+                clue: "FM 87 mc - FM 104 oc",
+                locationClue: "Ondorengo gelan dagoen tresna batekin; ordua, tenperatura hezetasuna eta iparra non dagoen jakin dezakegu.",
+                color: "#331414" // Granate oscuro
+            },
+            { 
+                code: [1, 9, 7, 4], // 1974 - Etxea berritu zuten urtea - Patiora joateko
+                clue: "Bazenekiten etxe hau berrituta dagoela? zuen amatxin aita jaio aurretik existitzen zen baina momentu batean berritu zuten. Zein urteetan?",
+                locationClue: "Eskatu Naiarari laguntza, berak badaki non dagoen hurrengo pista.",
+                color: "#142233" // Azul medianoche
+            },
+            { 
+                code: [1, 0, 7, 4], // 1074 - Goiko Jaionen gelara joateko
+                clue: "KOLORETAKO ARGIAK oso politak ziren, LEHIOetatik zintzilink ikusten ziren, ARROPA ZINTZILIKATZEKO SOKEkin batera.",
+                locationClue: "Badakizue amatxik margotzen duela? Neska pentsakor bat margotu zuen behin. Etxe honetan dago orain beti leihotik begira.",
+                color: "#2d1e33" // Morado oscuro polvoriento
+            },
+            { 
+                code: [8, 6, 4, 7], // 8647 - Sukaldera joateko
+                clue: "Hilabeteak: Adur, June, Suhar, Xan",
+                locationClue: "Eguneko elkartzen gara denak bertan.",
+                color: "#332d14" // Ocre/Mostaza apagado
+            },
+            { 
+                code: [5, 3, 6, 7], // 5367 - Ganbarara joateko
+                clue: "(Eskatu marrazkia) - Junek - 2025/10/11",
+                locationClue: "Badakizue etxean kalera ematen ez duen leiho bat dagoela? Ze gelatan dago?",
+                color: "#262a2b" // Gris pizarra
+            },
+            { 
+                code: [2, 8, 0, 9], 
+                clue: "Nik zuen jaiotze hilabeteak ezagutzen ditut. Ni 1913an jaio nintzen, baina badakizue zein egun eta hilabetetan? ",
+                locationClue: "Gela honetan dago etxeko ohe astunena.",
+                color: "#3b1c15" // Rojo ladrillo oscuro
+            },
+            { 
+                code: [2, 0, 3, 3], 
+                clue: "Ze urtekoak dira loreak? + Las Cijas",
+                locationClue: "Bertan ospatu da uda honetan mundial garrantzitsu bat.", // Azken mailan ez da erabiltzen
+                color: "#111111" // Negro misterioso
+            }
+        ];
+        // =========================================================================
+        // FIN DE LA ZONA DE EDICIÓN
+        // =========================================================================
+
+        // Encouraging messages in Euskera
+        const animoMessages = [
+            "Oso ongi!", 
+            "Bikain!", 
+            "Segi horrela!", 
+            "Zoragarri!", 
+            "Lan bikaina!", 
+            "Ederki!", 
+            "Zein azkarrak zarete!",
+            "Hori da!",
+            "Ezin hobeto!"
+        ];
+
+        let currentLevel = 0;
+        let currentGuess = [0, 0, 0, 0];
+
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const intermediateScreen = document.getElementById('intermediate-screen');
+        const intermediateClueText = document.getElementById('intermediate-clue-text');
+        const victoryScreen = document.getElementById('victory-screen');
+        const levelDisplay = document.getElementById('current-level-display');
+        const lockContainer = document.getElementById('lock-container');
+        const modal = document.getElementById('feedback-modal');
+        const feedbackTitle = document.getElementById('feedback-title');
+        
+        // Touch handling variables for swipe-to-spin
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        function startGame() {
+            startScreen.classList.add('fade-out');
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+                gameScreen.classList.remove('hidden-start');
+                gameScreen.classList.add('fade-in');
+                updateLevelUI();
+            }, 500);
+        }
+
+        function updateLevelUI() {
+            // Actualizar número de nivel
+            levelDisplay.textContent = currentLevel + 1;
+            
+            // Actualizar el texto de la pista (clue)
+            const clueElement = document.getElementById('clue-text');
+            clueElement.textContent = gameLevels[currentLevel].clue;
+            
+            // Actualizar el color de fondo para inmersión
+            document.body.style.backgroundColor = gameLevels[currentLevel].color;
+
+            // Reset digits to 0
+            currentGuess = [0, 0, 0, 0];
+            updateDigitDisplays();
+        }
+
+        function changeDigit(index, amount) {
+            currentGuess[index] += amount;
+            // Handle wrap around 0-9
+            if (currentGuess[index] > 9) currentGuess[index] = 0;
+            if (currentGuess[index] < 0) currentGuess[index] = 9;
+            
+            updateDigitDisplays();
+        }
+
+        function updateDigitDisplays() {
+            for (let i = 0; i < 4; i++) {
+                const el = document.getElementById(`digit-${i}`);
+                // Simple animation effect on change
+                el.style.transform = 'scale(1.2)';
+                setTimeout(() => el.style.transform = 'scale(1)', 100);
+                el.textContent = currentGuess[i];
+            }
+        }
+
+        function checkCode() {
+            const targetCode = gameLevels[currentLevel].code;
+            let isCorrect = true;
+            
+            for (let i = 0; i < 4; i++) {
+                if (currentGuess[i] !== targetCode[i]) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if (isCorrect) {
+                handleSuccess();
+            } else {
+                handleError();
+            }
+        }
+
+        function handleSuccess() {
+            // Get random encouraging message
+            const randomMsg = animoMessages[Math.floor(Math.random() * animoMessages.length)];
+            feedbackTitle.textContent = randomMsg;
+            feedbackTitle.style.color = "#2e7d32"; // Green success color
+            
+            modal.classList.add('active');
+        }
+
+        function handleError() {
+            // Shake animation
+            lockContainer.classList.remove('error-shake');
+            void lockContainer.offsetWidth; // Trigger reflow
+            lockContainer.classList.add('error-shake');
+            
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+        }
+
+        function closeModalAndNext() {
+            modal.classList.remove('active');
+            
+            setTimeout(() => {
+                // Si estamos en el último nivel, ir directo a la victoria
+                if (currentLevel >= gameLevels.length - 1) {
+                    showVictory();
+                } else {
+                    // Mostrar pantalla de la pista física para buscar
+                    showIntermediateScreen();
+                }
+            }, 300); // Wait for modal to close
+        }
+
+        function showIntermediateScreen() {
+            gameScreen.classList.remove('fade-in');
+            gameScreen.classList.add('fade-out');
+            
+            setTimeout(() => {
+                gameScreen.style.display = 'none';
+                
+                // Actualizar texto con la pista hacia el siguiente número
+                intermediateClueText.textContent = gameLevels[currentLevel].locationClue;
+                
+                intermediateScreen.style.display = 'block';
+                intermediateScreen.classList.remove('hidden-start', 'fade-out');
+                intermediateScreen.classList.add('fade-in');
+            }, 500);
+        }
+
+        function goToNextLevel() {
+            intermediateScreen.classList.remove('fade-in');
+            intermediateScreen.classList.add('fade-out');
+            
+            setTimeout(() => {
+                intermediateScreen.style.display = 'none';
+                currentLevel++;
+                
+                updateLevelUI();
+                gameScreen.style.display = 'block';
+                gameScreen.classList.remove('hidden-start', 'fade-out');
+                gameScreen.classList.add('fade-in');
+            }, 500);
+        }
+
+        function showVictory() {
+            gameScreen.classList.remove('fade-in');
+            gameScreen.classList.add('fade-out');
+            
+            setTimeout(() => {
+                gameScreen.style.display = 'none';
+                victoryScreen.style.display = 'block';
+                victoryScreen.classList.remove('hidden-start');
+                victoryScreen.classList.add('fade-in');
+            }, 500);
+        }
+
+        // Add swipe up/down functionality to digits for a better mobile feel
+        document.querySelectorAll('.digit-box').forEach((box, index) => {
+            box.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+            }, {passive: true});
+
+            box.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe(index);
+            }, {passive: true});
+        });
+
+        function handleSwipe(index) {
+            const threshold = 30; // Minimum swipe distance
+            if (touchEndY < touchStartY - threshold) {
+                // Swipe Up
+                changeDigit(index, 1);
+            }
+            if (touchEndY > touchStartY + threshold) {
+                // Swipe Down
+                changeDigit(index, -1);
+            }
+        }
+    </script>
+</body>
+</html>
